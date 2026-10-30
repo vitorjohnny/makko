@@ -1,3 +1,4 @@
+
 package br.com.autoinject.aps.model;
 
 import jakarta.persistence.*;
@@ -20,29 +21,33 @@ public class ItemPlanejamento {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "planejamento", nullable = false)
-    private String planejamento;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "planejamento_id", nullable = false)
+    private Planejamento planejamento;
 
-    @Column(name = "ordem_producao", nullable = false)
-    private String ordemProducao;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ordem_producao_id", nullable = false)
+    private OrdemProducao ordemProducao;
 
-    @Column(name = "maquina", nullable = false)
-    private String maquina;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "maquina_id", nullable = false)
+    private Maquina maquina;
 
-    @Column(name = "molde")
-    private String molde;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "molde_id")
+    private Molde molde;
 
     @Column(name = "inicio_previsto", nullable = false)
-    private String inicioPrevisto;
+    private LocalDateTime inicioPrevisto;
 
     @Column(name = "fim_previsto", nullable = false)
-    private String fimPrevisto;
+    private LocalDateTime fimPrevisto;
 
     @Column(name = "inicio_real")
-    private String inicioReal;
+    private LocalDateTime inicioReal;
 
     @Column(name = "fim_real")
-    private String fimReal;
+    private LocalDateTime fimReal;
 
     @Column(name = "quantidade_programada", nullable = false)
     private Integer quantidadeProgramada;
@@ -52,6 +57,10 @@ public class ItemPlanejamento {
 
     @Column(name = "status", nullable = false, length = 20)
     private String status;
+
+    @Column(name = "risco_atraso", nullable = false)
+    @Builder.Default
+    private Boolean riscoAtraso = false;
 
     @Builder.Default
     @Column(name = "ativo", nullable = false)

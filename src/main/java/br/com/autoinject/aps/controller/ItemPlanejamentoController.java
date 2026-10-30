@@ -1,10 +1,13 @@
+
 package br.com.autoinject.aps.controller;
 
 import br.com.autoinject.aps.dto.ItemPlanejamentoRequest;
 import br.com.autoinject.aps.dto.ItemPlanejamentoResponse;
 import br.com.autoinject.aps.service.ItemPlanejamentoService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,18 +23,35 @@ public class ItemPlanejamentoController {
 
     @GetMapping
     public ResponseEntity<List<ItemPlanejamentoResponse>> listar(
-            @RequestParam String planejamento) {
-        return ResponseEntity.ok(itemPlanejamentoService.listarPorPlanejamento(planejamento));
+            @RequestParam(required = false) Long planejamentoId) {
+
+        if (planejamentoId != null) {
+            return ResponseEntity.ok(
+                    itemPlanejamentoService.listarPorPlanejamento(planejamentoId)
+            );
+        }
+
+        return ResponseEntity.ok(
+                itemPlanejamentoService.listarTodos()
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemPlanejamentoResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(itemPlanejamentoService.buscarPorId(id));
+    public ResponseEntity<ItemPlanejamentoResponse> buscarPorId(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                itemPlanejamentoService.buscarPorId(id)
+        );
     }
 
     @PostMapping
-    public ResponseEntity<ItemPlanejamentoResponse> criar(@Valid @RequestBody ItemPlanejamentoRequest request) {
-        ItemPlanejamentoResponse response = itemPlanejamentoService.criar(request);
+    public ResponseEntity<ItemPlanejamentoResponse> criar(
+            @Valid @RequestBody ItemPlanejamentoRequest request) {
+
+        ItemPlanejamentoResponse response =
+                itemPlanejamentoService.criar(request);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -39,19 +59,27 @@ public class ItemPlanejamentoController {
     public ResponseEntity<ItemPlanejamentoResponse> atualizar(
             @PathVariable Long id,
             @Valid @RequestBody ItemPlanejamentoRequest request) {
-        return ResponseEntity.ok(itemPlanejamentoService.atualizar(id, request));
+
+        return ResponseEntity.ok(
+                itemPlanejamentoService.atualizar(id, request)
+        );
     }
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<ItemPlanejamentoResponse> alterarStatus(
             @PathVariable Long id,
             @RequestParam Boolean ativo) {
-        return ResponseEntity.ok(itemPlanejamentoService.alterarStatus(id, ativo));
+
+        return ResponseEntity.ok(
+                itemPlanejamentoService.alterarStatus(id, ativo)
+        );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
+
         itemPlanejamentoService.excluir(id);
+
         return ResponseEntity.noContent().build();
     }
 }

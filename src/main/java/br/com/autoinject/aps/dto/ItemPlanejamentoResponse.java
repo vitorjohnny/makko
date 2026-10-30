@@ -1,3 +1,4 @@
+
 package br.com.autoinject.aps.dto;
 
 import lombok.*;
@@ -12,16 +13,28 @@ import java.time.LocalDateTime;
 public class ItemPlanejamentoResponse {
 
     private Long id;
+
+    private Long planejamentoId;
     private String planejamento;
+
+    private Long ordemProducaoId;
     private String ordemProducao;
+
+    private Long maquinaId;
     private String maquina;
+
+    private Long moldeId;
     private String molde;
-    private String inicioPrevisto;
-    private String fimPrevisto;
-    private String inicioReal;
-    private String fimReal;
+
+    private LocalDateTime inicioPrevisto;
+    private LocalDateTime fimPrevisto;
+    private LocalDateTime inicioReal;
+    private LocalDateTime fimReal;
+
     private Integer quantidadeProgramada;
     private Integer sequencia;
+
     private String status;
+    private Boolean riscoAtraso;
     private Boolean ativo;
 }
